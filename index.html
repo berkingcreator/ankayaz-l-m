@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="tr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anka Yazılım | Premium Mobile Ready</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+        
+        body { font-family: 'Inter', sans-serif; background-color: #ffffff; color: #1d1d1f; overflow-x: hidden; }
+        .apple-card { background: #ffffff; border: 1px solid rgba(0,0,0,0.08); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        .nav-blur { background: rgba(255, 255, 255, 0.8); backdrop-filter: saturate(180%) blur(20px); }
+        .page-section { display: none; min-height: 100vh; animation: fadeIn 0.5s ease; }
+        .page-section.active { display: block; }
+        
+        /* Mobil Menü Animasyonu */
+        #mobile-menu { transition: all 0.3s ease-in-out; transform: translateY(-100%); opacity: 0; pointer-events: none; }
+        #mobile-menu.open { transform: translateY(0); opacity: 1; pointer-events: auto; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    </style>
+</head>
+<body>
+
+    <nav class="fixed top-0 w-full z-50 nav-blur border-b border-black/5 px-6 py-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-2 cursor-pointer" onclick="showPage('home')">
+                <div class="w-8 h-8 bg-black rounded-lg flex items-center justify-center font-bold text-white italic">A</div>
+                <span class="text-lg font-bold tracking-tight">ANKA</span>
+            </div>
+            
+            <div class="hidden md:flex space-x-8 text-xs font-bold text-gray-500 uppercase tracking-widest">
+                <a href="javascript:void(0)" onclick="showPage('home')" class="hover:text-black transition">Anasayfa</a>
+                <a href="javascript:void(0)" onclick="showPage('hizmetler')" class="hover:text-black transition">Hizmetler</a>
+                <a href="javascript:void(0)" onclick="showPage('bizkimiz')" class="hover:text-black transition">Biz Kimiz</a>
+                <a href="javascript:void(0)" onclick="showPage('iletisim')" class="hover:text-black transition">İletişim</a>
+            </div>
+
+            <div class="flex items-center space-x-4">
+                <a href="https://ybg13.com" target="_blank" class="text-xs font-black text-blue-600 border border-blue-600 px-3 py-1 rounded-md">YBG13™</a>
+                <button class="md:hidden text-2xl" onclick="toggleMenu()">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div id="mobile-menu" class="fixed inset-0 z-40 bg-white flex flex-col items-center justify-center space-y-8 text-2xl font-bold">
+        <button onclick="toggleMenu()" class="absolute top-6 right-6 text-3xl">&times;</button>
+        <a href="javascript:void(0)" onclick="showPage('home'); toggleMenu();">Anasayfa</a>
+        <a href="javascript:void(0)" onclick="showPage('hizmetler'); toggleMenu();">Hizmetler</a>
+        <a href="javascript:void(0)" onclick="showPage('bizkimiz'); toggleMenu();">Biz Kimiz</a>
+        <a href="javascript:void(0)" onclick="showPage('iletisim'); toggleMenu();">İletişim</a>
+    </div>
+
+    <main id="home" class="page-section active pt-32 px-6">
+        <div class="max-w-4xl mx-auto text-center">
+            <h1 class="text-5xl md:text-8xl font-black tracking-tighter mb-6">Her Cihazda <br><span class="text-blue-600">Kusursuz.</span></h1>
+            <p class="text-lg text-gray-500 mb-10 leading-relaxed px-4">Anka Yazılım, YBG13™ gücüyle mobil ve web dünyasını tek bir potada eritiyor.</p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4 px-10">
+                <button onclick="showPage('bizkimiz')" class="bg-black text-white px-8 py-4 rounded-2xl font-bold">Ekibi Tanıyın</button>
+                <button onclick="showPage('iletisim')" class="bg-gray-100 px-8 py-4 rounded-2xl font-bold">Bize Yazın</button>
+            </div>
+        </div>
+        
+        <div class="mt-20 grid grid-cols-1 md:grid-cols-3 gap-6 max-w-7xl mx-auto pb-20">
+            <div class="apple-card p-8 rounded-[2rem] mx-4">
+                <h3 class="font-bold text-xl mb-2">Mobil Öncelikli</h3>
+                <p class="text-gray-500 text-sm">Tüm projelerimiz önce mobil cihazlarda test edilir.</p>
+            </div>
+            <div class="apple-card p-8 rounded-[2rem] mx-4">
+                <h3 class="font-bold text-xl mb-2">YBG13™ Vizyonu</h3>
+                <p class="text-gray-500 text-sm">Kurumsal kimliğinizi dijitalde en iyi biz yansıtırız.</p>
+            </div>
+        </div>
+    </main>
+
+    <section id="hizmetler" class="page-section pt-32 px-6">
+        <div class="max-w-6xl mx-auto px-4 text-center md:text-left">
+            <h2 class="text-4xl font-black mb-12">Hizmet Alanları</h2>
+            <div class="space-y-6">
+                <div class="apple-card p-10 rounded-[2.5rem] flex flex-col md:flex-row items-center gap-8">
+                    <div class="w-20 h-20 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center text-3xl">
+                        <i class="fas fa-mobile-screen"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold mb-2">Uygulama Geliştirme</h3>
+                        <p class="text-gray-500">iOS ve Android için native kalitesinde hibrit ve özel çözümler.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="bizkimiz" class="page-section pt-32 px-6">
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="text-4xl font-black mb-12 text-center">Yönetim</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="apple-card p-10 rounded-[3rem] text-center border-t-8 border-blue-500">
+                    <h3 class="text-2xl font-black">Berk Bey</h3>
+                    <p class="text-blue-600 font-bold text-sm mb-4">CEO & Founder</p>
+                    <p class="text-gray-400 text-sm">YBG13™ ve Anka Yazılım'ın kurucu lideri.</p>
+                </div>
+                <div class="apple-card p-10 rounded-[3rem] text-center">
+                    <h3 class="text-2xl font-black">Mirza Bey</h3>
+                    <p class="text-blue-600 font-bold text-sm mb-4">Lead Designer</p>
+                    <p class="text-gray-400 text-sm">Endüstriyel tasarım ve modelleme uzmanı.</p>
+                </div>
+                <div class="apple-card p-10 rounded-[3rem] text-center">
+                    <h3 class="text-2xl font-black">Alp Bey</h3>
+                    <p class="text-blue-600 font-bold text-sm mb-4">System Engineer</p>
+                    <p class="text-gray-400 text-sm">Donanım montaj ve saha operasyon sorumlusu.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="iletisim" class="page-section pt-32 px-6">
+        <div class="max-w-3xl mx-auto text-center py-20">
+            <h2 class="text-4xl font-black mb-6">Bizimle Tanışın</h2>
+            <p class="text-blue-600 text-xl font-bold mb-10">info@ankayazilim.com</p>
+            <a href="https://ybg13.com" target="_blank" class="text-gray-400 font-bold">ybg13.com</a>
+        </div>
+    </section>
+
+    <footer class="py-10 border-t border-gray-100 text-center text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em]">
+        © 2026 ANKA YAZILIM | POWERED BY YBG13™
+    </footer>
+
+    <script>
+        function showPage(pageId) {
+            const sections = document.querySelectorAll('.page-section');
+            sections.forEach(s => s.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function toggleMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('open');
+        }
+    </script>
+</body>
+</html>
