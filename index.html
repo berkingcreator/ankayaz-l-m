@@ -1,146 +1,332 @@
 <!DOCTYPE html>
-<html lang="tr" class="scroll-smooth">
+<html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anka Yazılım | Premium Mobile Ready</title>
+    <title>Anka Yazılım - Dijital Çözümler</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
         
-        body { font-family: 'Inter', sans-serif; background-color: #ffffff; color: #1d1d1f; overflow-x: hidden; }
-        .apple-card { background: #ffffff; border: 1px solid rgba(0,0,0,0.08); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
-        .nav-blur { background: rgba(255, 255, 255, 0.8); backdrop-filter: saturate(180%) blur(20px); }
-        .page-section { display: none; min-height: 100vh; animation: fadeIn 0.5s ease; }
-        .page-section.active { display: block; }
-        
-        /* Mobil Menü Animasyonu */
-        #mobile-menu { transition: all 0.3s ease-in-out; transform: translateY(-100%); opacity: 0; pointer-events: none; }
-        #mobile-menu.open { transform: translateY(0); opacity: 1; pointer-events: auto; }
+        body {
+            font-family: 'Inter', sans-serif;
+        }
 
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .animate-fadeIn {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hidden-page {
+            display: none;
+        }
+
+        .active-nav {
+            color: #2563eb;
+            border-bottom: 2px solid #2563eb;
+            padding-bottom: 0.25rem;
+        }
     </style>
 </head>
-<body>
+<body class="min-h-screen bg-white text-slate-900 flex flex-col selection:bg-blue-200 selection:text-blue-900">
 
-    <nav class="fixed top-0 w-full z-50 nav-blur border-b border-black/5 px-6 py-4">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <div class="flex items-center space-x-2 cursor-pointer" onclick="showPage('home')">
-                <div class="w-8 h-8 bg-black rounded-lg flex items-center justify-center font-bold text-white italic">A</div>
-                <span class="text-lg font-bold tracking-tight">ANKA</span>
-            </div>
-            
-            <div class="hidden md:flex space-x-8 text-xs font-bold text-gray-500 uppercase tracking-widest">
-                <a href="javascript:void(0)" onclick="showPage('home')" class="hover:text-black transition">Anasayfa</a>
-                <a href="javascript:void(0)" onclick="showPage('hizmetler')" class="hover:text-black transition">Hizmetler</a>
-                <a href="javascript:void(0)" onclick="showPage('bizkimiz')" class="hover:text-black transition">Biz Kimiz</a>
-                <a href="javascript:void(0)" onclick="showPage('iletisim')" class="hover:text-black transition">İletişim</a>
-            </div>
+    <!-- NAVBAR -->
+    <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <div class="flex items-center gap-2 cursor-pointer" onclick="navigate('home')">
+                    <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
+                        <i data-lucide="code" class="text-white w-6 h-6"></i>
+                    </div>
+                    <span class="text-2xl font-black tracking-tight text-slate-900">
+                        Anka<span class="text-blue-600">Yazılım</span>
+                    </span>
+                </div>
 
-            <div class="flex items-center space-x-4">
-                <a href="https://ybg13.com" target="_blank" class="text-xs font-black text-blue-600 border border-blue-600 px-3 py-1 rounded-md">YBG13™</a>
-                <button class="md:hidden text-2xl" onclick="toggleMenu()">
-                    <i class="fas fa-bars"></i>
-                </button>
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <button onclick="navigate('home')" id="nav-home" class="nav-link text-sm font-semibold text-slate-600 hover:text-blue-600 active-nav">Ana Sayfa</button>
+                    <button onclick="navigate('about')" id="nav-about" class="nav-link text-sm font-semibold text-slate-600 hover:text-blue-600">Kurumsal</button>
+                    <button onclick="navigate('services')" id="nav-services" class="nav-link text-sm font-semibold text-slate-600 hover:text-blue-600">Hizmetlerimiz</button>
+                    <button onclick="navigate('projects')" id="nav-projects" class="nav-link text-sm font-semibold text-slate-600 hover:text-blue-600">Projeler</button>
+                    <button onclick="navigate('contact')" id="nav-contact" class="nav-link text-sm font-semibold text-slate-600 hover:text-blue-600">İletişim</button>
+                    <button onclick="navigate('contact')" class="bg-blue-600 text-white px-5 py-2.5 rounded-lg text-sm font-bold hover:bg-blue-700 transition-colors shadow-sm">
+                        Teklif Alın
+                    </button>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button onclick="toggleMobileMenu()" class="text-slate-600 hover:text-slate-900 focus:outline-none">
+                        <i data-lucide="menu" id="menu-icon" class="w-7 h-7"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Panel -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-slate-100 shadow-lg absolute w-full left-0">
+            <div class="px-4 pt-2 pb-6 space-y-2">
+                <button onclick="navigate('home')" class="block w-full text-left px-4 py-3 rounded-lg text-base font-medium text-slate-700 hover:bg-slate-50">Ana Sayfa</button>
+                <button onclick="navigate('about')" class="block w-full text-left px-4 py-3 rounded-lg text-base font-medium text-slate-700 hover:bg-slate-50">Kurumsal</button>
+                <button onclick="navigate('services')" class="block w-full text-left px-4 py-3 rounded-lg text-base font-medium text-slate-700 hover:bg-slate-50">Hizmetlerimiz</button>
+                <button onclick="navigate('projects')" class="block w-full text-left px-4 py-3 rounded-lg text-base font-medium text-slate-700 hover:bg-slate-50">Projeler</button>
+                <button onclick="navigate('contact')" class="block w-full text-left px-4 py-3 rounded-lg text-base font-medium text-slate-700 hover:bg-slate-50">İletişim</button>
             </div>
         </div>
     </nav>
 
-    <div id="mobile-menu" class="fixed inset-0 z-40 bg-white flex flex-col items-center justify-center space-y-8 text-2xl font-bold">
-        <button onclick="toggleMenu()" class="absolute top-6 right-6 text-3xl">&times;</button>
-        <a href="javascript:void(0)" onclick="showPage('home'); toggleMenu();">Anasayfa</a>
-        <a href="javascript:void(0)" onclick="showPage('hizmetler'); toggleMenu();">Hizmetler</a>
-        <a href="javascript:void(0)" onclick="showPage('bizkimiz'); toggleMenu();">Biz Kimiz</a>
-        <a href="javascript:void(0)" onclick="showPage('iletisim'); toggleMenu();">İletişim</a>
-    </div>
-
-    <main id="home" class="page-section active pt-32 px-6">
-        <div class="max-w-4xl mx-auto text-center">
-            <h1 class="text-5xl md:text-8xl font-black tracking-tighter mb-6">Her Cihazda <br><span class="text-blue-600">Kusursuz.</span></h1>
-            <p class="text-lg text-gray-500 mb-10 leading-relaxed px-4">Anka Yazılım, YBG13™ gücüyle mobil ve web dünyasını tek bir potada eritiyor.</p>
-            <div class="flex flex-col sm:flex-row justify-center gap-4 px-10">
-                <button onclick="showPage('bizkimiz')" class="bg-black text-white px-8 py-4 rounded-2xl font-bold">Ekibi Tanıyın</button>
-                <button onclick="showPage('iletisim')" class="bg-gray-100 px-8 py-4 rounded-2xl font-bold">Bize Yazın</button>
-            </div>
-        </div>
+    <!-- MAIN CONTENT AREA -->
+    <main class="flex-grow pt-20">
         
-        <div class="mt-20 grid grid-cols-1 md:grid-cols-3 gap-6 max-w-7xl mx-auto pb-20">
-            <div class="apple-card p-8 rounded-[2rem] mx-4">
-                <h3 class="font-bold text-xl mb-2">Mobil Öncelikli</h3>
-                <p class="text-gray-500 text-sm">Tüm projelerimiz önce mobil cihazlarda test edilir.</p>
+        <!-- HOME PAGE -->
+        <div id="page-home" class="page-content animate-fadeIn">
+            <section class="relative bg-white pt-24 pb-32 overflow-hidden">
+                <div class="absolute inset-0 z-0">
+                    <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-blue-50 via-white to-white opacity-70"></div>
+                </div>
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                    <div class="text-center max-w-4xl mx-auto">
+                        <h1 class="text-5xl md:text-6xl font-extrabold text-slate-900 tracking-tight mb-8">
+                            Fikirlerinizi <span class="text-blue-600">Dijital Gerçekliğe</span> Dönüştürüyoruz
+                        </h1>
+                        <p class="text-xl text-slate-600 mb-10 leading-relaxed">
+                            Anka Yazılım olarak, işletmenizin dijital dönüşüm yolculuğunda yenilikçi, ölçeklenebilir ve güvenilir yazılım çözümleri sunuyoruz. Küllerinizden doğmaya hazır mısınız?
+                        </p>
+                        <div class="flex flex-col sm:flex-row justify-center gap-4">
+                            <button onclick="navigate('contact')" class="px-8 py-4 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors shadow-lg shadow-blue-200 flex items-center justify-center gap-2">
+                                Projenizi Konuşalım <i data-lucide="chevron-right" class="w-5 h-5"></i>
+                            </button>
+                            <button onclick="navigate('services')" class="px-8 py-4 bg-white text-slate-700 border border-slate-200 rounded-lg font-semibold hover:bg-slate-50 transition-colors">
+                                Hizmetlerimizi İnceleyin
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="py-20 bg-slate-50">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+                            <div class="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600 mb-6">
+                                <i data-lucide="code" class="w-7 h-7"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-slate-900 mb-3">Modern Teknolojiler</h3>
+                            <p class="text-slate-600">En güncel yazılım dilleri ve framework'ler ile geleceğe hazır, sağlam altyapılı projeler geliştiriyoruz.</p>
+                        </div>
+                        <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+                            <div class="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600 mb-6">
+                                <i data-lucide="users" class="w-7 h-7"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-slate-900 mb-3">Uzman Kadro</h3>
+                            <p class="text-slate-600">Alanında deneyimli mühendislerimiz ve tasarımcılarımızla projenizin her aşamasında yanınızdayız.</p>
+                        </div>
+                        <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+                            <div class="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600 mb-6">
+                                <i data-lucide="shield-check" class="w-7 h-7"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-slate-900 mb-3">Güvenilirlik & Destek</h3>
+                            <p class="text-slate-600">Proje teslimi sonrasında da 7/24 teknik destek ve bakım hizmetlerimizle işinizin kesintisiz yürümesini sağlıyoruz.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ABOUT PAGE -->
+        <div id="page-about" class="page-content hidden-page animate-fadeIn pb-24">
+            <div class="bg-slate-50 py-16 border-b border-slate-200">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                    <h1 class="text-4xl font-extrabold text-slate-900 mb-4">Hakkımızda</h1>
+                    <p class="text-lg text-slate-600 max-w-2xl mx-auto">Biz kimiz? Neden buradayız ve sizi hedeflerinize nasıl ulaştırabiliriz?</p>
+                </div>
             </div>
-            <div class="apple-card p-8 rounded-[2rem] mx-4">
-                <h3 class="font-bold text-xl mb-2">YBG13™ Vizyonu</h3>
-                <p class="text-gray-500 text-sm">Kurumsal kimliğinizi dijitalde en iyi biz yansıtırız.</p>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                    <div>
+                        <h2 class="text-3xl font-bold text-slate-900 mb-6">Anka Yazılım'ın Hikayesi</h2>
+                        <p class="text-slate-600 mb-4 leading-relaxed">2015 yılında, işletmelerin dijital dünyada karşılaştıkları karmaşık problemleri basit ve etkili çözümlerle aşmalarını sağlamak amacıyla kurulduk.</p>
+                        <p class="text-slate-600 mb-8 leading-relaxed">Bugün, start-up'lardan büyük kurumsal firmalara kadar geniş bir müşteri portföyüne uçtan uca yazılım çözümleri sunuyoruz.</p>
+                        <div class="space-y-4">
+                            <div class="flex items-start gap-3">
+                                <i data-lucide="check-circle-2" class="text-blue-600 w-5 h-5 mt-1"></i>
+                                <div>
+                                    <h4 class="font-semibold text-slate-900">İnovasyon Odaklı</h4>
+                                    <p class="text-sm text-slate-500">Her zaman en yeni ve en etkili teknolojileri takip ediyoruz.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="aspect-square bg-slate-100 rounded-2xl flex items-center justify-center text-slate-400 border-2 border-dashed border-slate-200">
+                        [Ekip Görseli]
+                    </div>
+                </div>
             </div>
         </div>
+
+        <!-- SERVICES PAGE -->
+        <div id="page-services" class="page-content hidden-page animate-fadeIn pb-24">
+            <div class="bg-slate-50 py-16 border-b border-slate-200">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                    <h1 class="text-4xl font-extrabold text-slate-900 mb-4">Hizmetlerimiz</h1>
+                    <p class="text-lg text-slate-600 max-w-2xl mx-auto">İhtiyacınız olan tüm dijital çözümleri tek bir çatı altında sunuyoruz.</p>
+                </div>
+            </div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Servis kartları dinamik eklenebilir veya statik kalabilir -->
+                <div class="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm hover:shadow-xl transition-all group">
+                    <div class="w-16 h-16 bg-slate-50 group-hover:bg-blue-600 group-hover:text-white transition-colors rounded-2xl flex items-center justify-center text-blue-600 mb-6">
+                        <i data-lucide="monitor" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-4">Özel Web Geliştirme</h3>
+                    <p class="text-slate-600">Kurumsal web sitelerinden karmaşık web uygulamalarına kadar modern çözümler.</p>
+                </div>
+                <div class="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm hover:shadow-xl transition-all group">
+                    <div class="w-16 h-16 bg-slate-50 group-hover:bg-blue-600 group-hover:text-white transition-colors rounded-2xl flex items-center justify-center text-blue-600 mb-6">
+                        <i data-lucide="smartphone" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-4">Mobil Uygulama</h3>
+                    <p class="text-slate-600">iOS ve Android için yüksek performanslı kullanıcı dostu uygulamalar.</p>
+                </div>
+                <div class="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm hover:shadow-xl transition-all group">
+                    <div class="w-16 h-16 bg-slate-50 group-hover:bg-blue-600 group-hover:text-white transition-colors rounded-2xl flex items-center justify-center text-blue-600 mb-6">
+                        <i data-lucide="layers" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-4">UI/UX Tasarım</h3>
+                    <p class="text-slate-600">Kullanıcı deneyimini merkeze alan modern arayüz tasarımları.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- PROJECTS PAGE -->
+        <div id="page-projects" class="page-content hidden-page animate-fadeIn pb-24">
+            <div class="bg-slate-50 py-16 border-b border-slate-200">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                    <h1 class="text-4xl font-extrabold text-slate-900 mb-4">Projelerimiz</h1>
+                </div>
+            </div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16 grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-white rounded-2xl overflow-hidden border border-slate-100 shadow-sm hover:shadow-lg transition-shadow">
+                    <div class="h-48 bg-slate-100 flex items-center justify-center text-slate-400">[Proje Görseli]</div>
+                    <div class="p-6">
+                        <span class="text-xs font-semibold text-blue-600 uppercase">Web & Mobil</span>
+                        <h3 class="text-xl font-bold text-slate-900 mt-2">E-Ticaret Altyapısı</h3>
+                        <p class="text-slate-600 mt-2">Mikroservis mimarisine sahip kapsamlı e-ticaret platformu.</p>
+                    </div>
+                </div>
+                <div class="bg-white rounded-2xl overflow-hidden border border-slate-100 shadow-sm hover:shadow-lg transition-shadow">
+                    <div class="h-48 bg-slate-100 flex items-center justify-center text-slate-400">[Proje Görseli]</div>
+                    <div class="p-6">
+                        <span class="text-xs font-semibold text-blue-600 uppercase">Özel Yazılım</span>
+                        <h3 class="text-xl font-bold text-slate-900 mt-2">Lojistik Yönetim Sistemi</h3>
+                        <p class="text-slate-600 mt-2">Filo takibi ve güzergah optimizasyonu sağlayan çözüm.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONTACT PAGE -->
+        <div id="page-contact" class="page-content hidden-page animate-fadeIn pb-24">
+            <div class="bg-slate-50 py-16 border-b border-slate-200">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                    <h1 class="text-4xl font-extrabold text-slate-900 mb-4">İletişim</h1>
+                </div>
+            </div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16 grid grid-cols-1 lg:grid-cols-2 gap-16">
+                <div class="bg-white p-8 rounded-2xl shadow-lg border border-slate-100">
+                    <form class="space-y-6" onsubmit="event.preventDefault();">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Adınız Soyadınız</label>
+                            <input type="text" class="w-full px-4 py-3 rounded-lg border border-slate-300 outline-none focus:ring-2 focus:ring-blue-600" placeholder="Ahmet Yılmaz">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Mesajınız</label>
+                            <textarea rows="4" class="w-full px-4 py-3 rounded-lg border border-slate-300 outline-none focus:ring-2 focus:ring-blue-600"></textarea>
+                        </div>
+                        <button class="w-full bg-blue-600 text-white font-bold py-4 rounded-lg hover:bg-blue-700 transition-colors">Mesajı Gönder</button>
+                    </form>
+                </div>
+                <div class="space-y-8">
+                    <div class="flex items-start gap-4">
+                        <i data-lucide="map-pin" class="text-blue-600 w-6 h-6"></i>
+                        <p class="text-slate-600">Teknopark İstanbul, Pendik / İstanbul</p>
+                    </div>
+                    <div class="flex items-start gap-4">
+                        <i data-lucide="phone" class="text-blue-600 w-6 h-6"></i>
+                        <p class="text-slate-600">+90 (216) 555 01 23</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </main>
 
-    <section id="hizmetler" class="page-section pt-32 px-6">
-        <div class="max-w-6xl mx-auto px-4 text-center md:text-left">
-            <h2 class="text-4xl font-black mb-12">Hizmet Alanları</h2>
-            <div class="space-y-6">
-                <div class="apple-card p-10 rounded-[2.5rem] flex flex-col md:flex-row items-center gap-8">
-                    <div class="w-20 h-20 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center text-3xl">
-                        <i class="fas fa-mobile-screen"></i>
-                    </div>
-                    <div>
-                        <h3 class="text-2xl font-bold mb-2">Uygulama Geliştirme</h3>
-                        <p class="text-gray-500">iOS ve Android için native kalitesinde hibrit ve özel çözümler.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="bizkimiz" class="page-section pt-32 px-6">
-        <div class="max-w-7xl mx-auto px-4">
-            <h2 class="text-4xl font-black mb-12 text-center">Yönetim</h2>
+    <!-- FOOTER -->
+    <footer class="bg-slate-900 text-slate-300 py-12 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center md:text-left">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="apple-card p-10 rounded-[3rem] text-center border-t-8 border-blue-500">
-                    <h3 class="text-2xl font-black">Berk Bey</h3>
-                    <p class="text-blue-600 font-bold text-sm mb-4">CEO & Founder</p>
-                    <p class="text-gray-400 text-sm">YBG13™ ve Anka Yazılım'ın kurucu lideri.</p>
+                <div>
+                    <span class="text-xl font-bold text-white">AnkaYazılım</span>
+                    <p class="mt-4 text-sm text-slate-400">Dijital dünyada küllerinizden doğun. Geleceğin teknolojileriyle işletmenizi bugün donatıyoruz.</p>
                 </div>
-                <div class="apple-card p-10 rounded-[3rem] text-center">
-                    <h3 class="text-2xl font-black">Mirza Bey</h3>
-                    <p class="text-blue-600 font-bold text-sm mb-4">Lead Designer</p>
-                    <p class="text-gray-400 text-sm">Endüstriyel tasarım ve modelleme uzmanı.</p>
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Hızlı Erişim</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><button onclick="navigate('home')" class="hover:text-white">Ana Sayfa</button></li>
+                        <li><button onclick="navigate('services')" class="hover:text-white">Hizmetlerimiz</button></li>
+                    </ul>
                 </div>
-                <div class="apple-card p-10 rounded-[3rem] text-center">
-                    <h3 class="text-2xl font-black">Alp Bey</h3>
-                    <p class="text-blue-600 font-bold text-sm mb-4">System Engineer</p>
-                    <p class="text-gray-400 text-sm">Donanım montaj ve saha operasyon sorumlusu.</p>
+                <div>
+                    <h4 class="text-white font-semibold mb-4">İletişim</h4>
+                    <p class="text-sm">info@ankayazilim.com.tr</p>
                 </div>
             </div>
+            <div class="border-t border-slate-800 mt-12 pt-8 text-sm text-center text-slate-500">
+                &copy; 2024 Anka Yazılım. Tüm hakları saklıdır.
+            </div>
         </div>
-    </section>
-
-    <section id="iletisim" class="page-section pt-32 px-6">
-        <div class="max-w-3xl mx-auto text-center py-20">
-            <h2 class="text-4xl font-black mb-6">Bizimle Tanışın</h2>
-            <p class="text-blue-600 text-xl font-bold mb-10">info@ankayazilim.com</p>
-            <a href="https://ybg13.com" target="_blank" class="text-gray-400 font-bold">ybg13.com</a>
-        </div>
-    </section>
-
-    <footer class="py-10 border-t border-gray-100 text-center text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em]">
-        © 2026 ANKA YAZILIM | POWERED BY YBG13™
     </footer>
 
     <script>
-        function showPage(pageId) {
-            const sections = document.querySelectorAll('.page-section');
-            sections.forEach(s => s.classList.remove('active'));
-            document.getElementById(pageId).classList.add('active');
+        // Sayfa Navigasyonu
+        function navigate(pageId) {
+            // Tüm sayfaları gizle
+            document.querySelectorAll('.page-content').forEach(page => {
+                page.classList.add('hidden-page');
+            });
+            // Seçilen sayfayı göster
+            document.getElementById('page-' + pageId).classList.remove('hidden-page');
+            
+            // Navigasyon stilini güncelle
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active-nav');
+            });
+            const activeNav = document.getElementById('nav-' + pageId);
+            if(activeNav) activeNav.classList.add('active-nav');
+
+            // Mobil menüyü kapat
+            document.getElementById('mobile-menu').classList.add('hidden');
+            
+            // Sayfanın en üstüne çık
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function toggleMenu() {
+        // Mobil Menü Toggle
+        function toggleMobileMenu() {
             const menu = document.getElementById('mobile-menu');
-            menu.classList.toggle('open');
+            menu.classList.toggle('hidden');
         }
+
+        // İkonları Başlat
+        lucide.createIcons();
     </script>
 </body>
 </html>
